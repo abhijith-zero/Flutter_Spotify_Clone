@@ -1,5 +1,6 @@
 import 'package:client/core/providers/current_user_notifier.dart';
 import 'package:client/core/theme/theme.dart';
+import 'package:client/features/auth/view/pages/signin_page.dart';
 import 'package:client/features/auth/view/pages/signup_page.dart';
 import 'package:client/features/auth/viewmodel/auth_viewmodel.dart';
 import 'package:client/features/home/view/pages/home.dart';
@@ -25,7 +26,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Music App',
       theme: AppTheme.darkThemeMode,
-      home: currentUser != null ? UploadSongPage() : const SignupPage(),
+      home: currentUser != null ? UploadSongPage() : const SigninPage(),
     );
   }
 }

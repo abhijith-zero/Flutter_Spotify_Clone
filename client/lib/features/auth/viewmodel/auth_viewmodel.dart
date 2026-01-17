@@ -6,7 +6,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_viewmodel.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class AuthViewmodel extends _$AuthViewmodel {
   late AuthRemoteRepository _authRemoteRepository;
   late AuthLocalRepository _authLocalRepository;
@@ -72,15 +72,21 @@ class AuthViewmodel extends _$AuthViewmodel {
     state = const AsyncValue.loading();
     final token = _authLocalRepository.getToken();
     if (token != null) {
-      final res = await _authRemoteRepository.getCurrentUserData(token: token);
-      final val = switch (res) {
-        Left(value: final l) => state = AsyncValue.error(
-          l.message,
-          StackTrace.current,
-        ),
-        Right(value: final r) => _getDataSuccess(r),
-      };
-      return val.value;
+      try {
+        final res = await _authRemoteRepository.getCurrentUserData(
+          token: token,
+        );
+        final val = switch (res) {
+          Left(value: final l) => state = AsyncValue.error(
+            l.message,
+            StackTrace.current,
+          ),
+          Right(value: final r) => _getDataSuccess(r),
+        };
+        return val.value;
+      } catch (e) {
+        return null;
+      }
     }
     return null;
   }
