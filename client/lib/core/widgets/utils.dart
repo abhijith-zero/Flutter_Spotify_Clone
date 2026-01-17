@@ -13,7 +13,6 @@ Future<File?> pickAudio() async {
   try {
     final filePickerRes = await FilePicker.platform.pickFiles(
       type: FileType.audio,
-      allowedExtensions: ['mp3', 'wav', 'm4a'],
     );
     if (filePickerRes != null) {
       final file = filePickerRes.files.first.xFile.path;
@@ -29,7 +28,6 @@ Future<File?> pickImage() async {
   try {
     final filePickerRes = await FilePicker.platform.pickFiles(
       type: FileType.image,
-      allowedExtensions: ['jpg', 'jpeg', 'png'],
     );
     if (filePickerRes != null) {
       final file = filePickerRes.files.first.xFile.path;

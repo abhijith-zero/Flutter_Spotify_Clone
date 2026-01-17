@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:client/core/theme/app_pallete.dart';
+import 'package:client/core/widgets/audio_wave.dart';
 import 'package:client/core/widgets/custom_field.dart';
 import 'package:client/core/widgets/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -68,8 +69,7 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
             children: [
               GestureDetector(
                 onTap: selectImage,
-                behavior: HitTestBehavior.deferToChild,
-                excludeFromSemantics: false,
+                behavior: HitTestBehavior.opaque,
                 child: selectedImage != null
                     ? SizedBox(
                         height: 150,
@@ -104,12 +104,16 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
                       ),
               ),
               const SizedBox(height: 40),
-              CustomField(
-                hintText: 'Pick Song',
-                controller: null,
-                readOnly: true,
-                onTap: () {},
-              ),
+              selectedAudio != null
+                  ? AudioWave(audioPath: selectedAudio!.path)
+                  : CustomField(
+                      hintText: 'Pick Song',
+                      controller: null,
+                      readOnly: true,
+                      onTap: () {
+                        selectAudio();
+                      },
+                    ),
               const SizedBox(height: 20),
               CustomField(
                 hintText: 'Song Name',
