@@ -42,12 +42,12 @@ def login_user(user: userLogin, db: Session=Depends(get_db)):
     if not bcrypt.checkpw(user.password.encode(), foundUser.password):
         raise HTTPException(status_code=400, detail="Invalid password")
     token = jwt.encode({"id":foundUser.id},'secret_key')
-    
     return {"access_token": token, "user": foundUser}
 
 @router.get('/',status_code=200,response_model=UserResponse)
 def current_user_session(db: Session=Depends(get_db),user_dict=Depends(authMiddleware)):  # authMiddleware
     user_id = user_dict["user_id"]
+    print(user_dict)
     foundUser = db.query(User).filter(User.id == user_id).first()
     if not foundUser:
         raise HTTPException(status_code=404, detail="User not found")
